@@ -1,0 +1,265 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{color}
+\usepackage{appendix}
+\usepackage{subfigure}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{booktabs}
+\numberwithin{table}{section}
+\usepackage{enumitem} %change list depth
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows,arrows.meta}
+\setlistdepth{8}
+\renewlist{itemize}{itemize}{8}
+
+\newcommand{\question}[2][]{\begin{flushleft}
+		\Large\textbf{Question #1}: \large\textit{#2}
+		
+\end{flushleft}}
+\newcommand{\sol}{\textbf{Solution}:} %Use if you want a boldface solution line
+\newcommand{\maketitletwo}[2][]{\begin{center}
+		\Large{\textbf{Homework #1}
+			
+			ECE 590: Towards More Reliable Software} % Name of course here
+		\vspace{5pt}
+		
+		\normalsize{Jeff Fan  \hspace{1em} $\left|\right|$ \hspace{1em}zf70@duke.edu  % Your name here
+			
+			\today}        % Change to due date if preferred
+		\vspace{15pt}
+		
+\end{center}}
+
+\begin{document}
+	\maketitletwo[7]  % Optional argument is assignment number
+	%Keep a blank space between maketitletwo and \question[1]
+	
+	\section*{Question 1: } 
+	
+	\textbf{{\large Project/Repository: }} Linux Kernel\\
+
+	\textbf{Issue 218173-Kernel 6.6 onwards hangs on "loading initial ramdisk" \href{https://bugzilla.kernel.org/show_bug.cgi?id=218173}{[1]}}
+	
+	\textbf{Classification: NAM-ENV}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The issue's activation seems to depend on the system's environment, including the kernel version (6.6 onwards) and possibly specific hardware configurations, rather than a specific sequence of operations.
+	
+	Error Propagation: The failure, characterized by the system hanging during the boot process, indicates that the bug's impact is immediate upon encountering the specific environmental conditions rather than following a sequential order of operations.
+	
+	Failure Occurrence: The consistent reproducibility of the failure across various configurations underlines the environmental dependency of the bug, reinforcing the NAM-ENV classification. This perspective is supported by the bug manifesting in relation to environmental factors such as kernel version and hardware interactions, rather than a fixed sequence of events.\\
+	
+	\textbf{Issue 89611 - Kernel Panic in b44 Driver \href{https://bugzilla.kernel.org/show_bug.cgi?id=89611}{[2]}}
+	
+	\textbf{Classification: NAM-SEQ}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: This issue is activated by a specific sequence of network traffic patterns, which indicates that the sequencing (or relative order) of operations is crucial for the fault to manifest. This aligns with the NAM-SEQ classification, where the activation and/or error propagation is influenced by the sequencing of operations.
+	
+	Error Propagation: The error's propagation through the system until it causes a kernel panic suggests a complex interplay that is dependent on the order in which network traffic is processed by the b44 driver. This complexity and sequence dependency further support the NAM-SEQ classification.
+	
+	Failure Occurrence: The failure, a kernel panic, occurs in a nondeterministic manner but is closely tied to the sequence and nature of network operations rather than environmental factors, timing of inputs, or a time lag between activation and failure. This specificity to operational sequences justifies the classification as NAM-SEQ, emphasizing the critical role of the operation order in triggering the bug.\\
+	
+	\textbf{Issue 53031 - kswapd in uninterruptible sleep state \href{https://bugzilla.kernel.org/show_bug.cgi?id=53031}{[3]}}
+	
+	\textbf{Classification: ARB-MEM}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: This issue is activated under conditions where the system's memory usage approaches a critical level, specifically when the page cache fills up while a significant amount of free memory (about 150MB, presumed to be the high watermark) still remains. This scenario indicates a gradual accumulation of memory usage leading to the problem, which is a hallmark of aging-related bugs, particularly those affecting memory management (ARB-MEM).
+	
+	Error Propagation: The error propagates through the system's memory management subsystem, with kswapd entering an uninterruptible sleep state and failing to free up memory as would normally be expected. This behavior suggests that the system's ability to manage memory effectively degrades over time, leading to a situation where critical processes become unresponsive.
+	
+	Failure Occurrence: The failure manifests as a significant system slowdown or potential unresponsiveness, given that kswapd is a critical kernel thread responsible for managing memory swapping. This problem directly impacts the system's performance and stability, aligning with the characteristics of an ARB-MEM, where memory resources are not managed or freed correctly, leading to system degradation over time.\\
+	
+	\textbf{Issue 211585 - Laptop hangs on second suspend unless a file is written to second disk - Intel Core i7-5500U Acer Aspire R13 \href{https://bugzilla.kernel.org/show_bug.cgi?id=211585}{[4]}}
+	
+	\textbf{Classification: BOH}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The issue occurs consistently on the second suspend attempt, indicating a deterministic pattern rather than being influenced by timing or environmental factors.
+	
+	Error Propagation: The behavior of the laptop hanging on the second suspend is deterministic and not influenced by external factors or variations in system state. It consistently occurs regardless of system configuration or usage.
+	
+	Failure Occurrence: The problem manifests consistently on the second suspend attempt, suggesting a systematic flaw rather than variability in timing or environment.
+	
+	In summary, the behavior of the laptop hanging on the second suspend appears to be a deterministic flaw in the system's power management behavior, unaffected by environmental or timing factors. Therefore, it aligns with the classification of a Bohrbug (BOH).\\
+	\\
+	\textbf{{\large Project/Repository: }} MySQL\\
+	
+	\textbf{Issue 71204 - Timing for stages in P\_S is different from what SHOW PROFILE reports \href{https://bugs.mysql.com/bug.php?id=71204}{[5]}}
+	
+	\textbf{Classification: NAM-TIM}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug is triggered when there is a discrepancy between the timing for stages in Performance Schema (P\_S) and what SHOW PROFILE reports. This indicates that the bug's activation is closely associated with timing discrepancies between these two mechanisms for profiling.
+	
+	Error Propagation: The error likely propagates within the mechanisms responsible for profiling and timing measurement within MySQL. It may involve discrepancies in how timing data is collected, processed, and reported by Performance Schema and SHOW PROFILE.
+	
+	Failure Occurrence: The failure occurs consistently when comparing the timing data reported by Performance Schema with that reported by SHOW PROFILE. This indicates that the bug's manifestation is predictable and reproducible when analyzing performance data through these two mechanisms.
+	
+	Given that the bug's activation is directly related to timing discrepancies between Performance Schema and SHOW PROFILE, its error propagation likely involves mechanisms responsible for timing measurement and reporting within MySQL, and its occurrence is consistent and reproducible when analyzing performance data, it aligns with the NAM-TIM classification. This classification signifies that the bug's behavior is influenced by timing issues in performance profiling mechanisms within MySQL.\\
+	
+	\textbf{Issue 2261 - Can't use @user\_variable as FETCH target in stored procedure \href{https://bugs.mysql.com/bug.php?id=2261}{[6]}}
+	
+	\textbf{Classification: NAM-ENV}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug is triggered when attempting to use @user\_variable as a FETCH target in a stored procedure. This indicates that the bug's activation is closely tied to environmental conditions, specifically the usage of user-defined variables within stored procedures.
+	
+	Error Propagation: The error likely propagates within the stored procedure execution context and is limited to the scope of FETCH operations involving @user\_variables. There is no indication that this error affects other parts of the system or propagates beyond the stored procedure.
+	
+	Failure Occurrence: The failure occurs consistently when attempting to use @user\_variable as a FETCH target in stored procedures. This indicates that the bug's manifestation is predictable and reproducible within the specific context of stored procedure execution.
+	
+	Given that the bug's activation is closely tied to the usage of user-defined variables within stored procedures, its error propagation is limited to the scope of FETCH operations, and its occurrence is consistent and reproducible within the stored procedure context, it aligns with the NAM-ENV classification. This classification signifies that the bug's behavior is influenced by environmental conditions, specifically the usage of @user\_variables within stored procedures.\\
+	
+	\textbf{
+		Issue 107991 - Clone\_persist\_gtid causes memory leak \href{https://bugs.mysql.com/bug.php?id=107991}{[7]}}
+	
+	\textbf{Classification: ARB-MEM}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug is activated when using the Clone\_persist\_gtid function, which causes a memory leak. Specifically, the memory leak occurs within this function, indicating that the bug's activation is associated with memory management processes rather than environmental conditions or specific sequences of actions.
+	
+	Error Propagation: The error likely propagates within the Clone\_persist\_gtid function and potentially affects other memory-related operations within the codebase. Memory leaks typically propagate as the program executes, consuming memory resources and potentially leading to system instability or crashes.
+	
+	Failure Occurrence: The failure occurs gradually over time as the Clone\_persist\_gtid function is repeatedly used without proper memory deallocation. This gradual accumulation of memory leaks may lead to system instability or performance degradation, depending on the frequency and intensity of function usage.
+	
+	Given that the bug's activation is related to memory management processes, its error propagation involves the gradual accumulation of memory leaks within the function and potentially throughout the codebase, and its failure occurrence is characterized by gradual system degradation over time, it aligns with the ARB-MEM classification. This classification indicates that the bug is aging-related and primarily affects memory management within the system.\\
+	
+	\textbf{Issue 86043 - Can't use BigInt or Double as userId instead of Int32 (default) \href{https://bugs.mysql.com/bug.php?id=86043}{[8]}}
+	
+	\textbf{Classification: BOH}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The fault is activated when attempting to use BigInt or Double as the userId instead of the default Int32 type. This activation is consistent and does not vary over time or with environmental factors.
+	
+	Error Propagation: The error propagation is stable and consistent. It does not change its behavior over time or with changes in the system environment.
+	
+	Failure Occurrence: The occurrence of the issue is predictable and reproducible under specific conditions. It does not exhibit variability in behavior or timing.
+	
+	Given these characteristics, the issue aligns with the definition of a Bohrbug.\\
+	\\
+	\textbf{{\large Project/Repository: }} Apache\\
+	
+	\textbf{Issue 68661 - Memory leak in load\_install\_path() in jlibtool.c \href{https://bz.apache.org/bugzilla/show_bug.cgi?id=68661}{[9]}}
+	
+	\textbf{Classification: ARB-MEM}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug is triggered by the execution of the load\_install\_path() function in jlibtool.c. Specifically, it involves a memory leak within this function, indicating that the bug's activation is associated with memory management processes rather than environmental conditions or specific sequences of actions.
+	
+	Error Propagation: The error likely propagates within the load\_install\_path() function and potentially affects other memory-related operations within the codebase. Memory leaks typically propagate as the program executes, consuming memory resources and potentially leading to system instability or crashes.
+	
+	Failure Occurrence: The failure occurs gradually over time as the load\_install\_path() function is repeatedly executed without proper memory deallocation. This gradual accumulation of memory leaks may lead to system instability or performance degradation, depending on the frequency and intensity of function execution.
+	
+	Given that the bug's activation is related to memory management processes, its error propagation involves the gradual accumulation of memory leaks within the function and potentially throughout the codebase, and its failure occurrence is characterized by gradual system degradation over time, it aligns with the ARB-MEM classification. This classification indicates that the bug is aging-related and primarily affects memory management within the system.\\
+	
+	\textbf{Issue 63666 - Should take the OS buffers into account when timing lingering \href{https://bz.apache.org/bugzilla/show_bug.cgi?id=63666}{[10]}}
+	
+	\textbf{Classification: NAM-TIM}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug is triggered by the timing mechanism concerning the lingering of connections, specifically concerning the consideration of OS buffers. This indicates that the bug's activation is associated with timing aspects rather than environmental conditions or sequential actions. Therefore, it aligns with the NAM-TIM classification.
+	
+	Error Propagation: The error propagates as a result of incorrect timing calculations related to lingering connections, specifically due to the failure to consider OS buffers. This implies that the bug's error propagation is tied to timing intricacies within the system rather than environmental dependencies or sequential events.
+	
+	Failure Occurrence: The failure occurs due to incorrect timing calculations regarding connection lingering, particularly the lack of consideration for OS buffers. This failure pattern is indicative of a timing-related issue rather than one stemming from environmental constraints or specific sequences of actions. Hence, it supports the classification of NAM-TIM, emphasizing the timing aspect of the bug's manifestation and propagation.\\
+	
+	\textbf{Issue 63716 - mod\_proxy\_uwsgi: No support for UNIX sockets \href{https://bz.apache.org/bugzilla/show_bug.cgi?id=63716}{[11]}}
+	
+	\textbf{Classification: BOH}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug involves the absence of support for UNIX sockets in mod\_proxy\_uwsgi. This indicates that the bug is not related to timing issues, environmental conditions, or specific sequences of actions. Instead, it is a fundamental limitation in the functionality of the module.
+	
+	Error Propagation: The error is likely confined to the functionality of mod\_proxy\_uwsgi itself. There is no indication that this issue propagates errors to other parts of the system or affects the behavior of other modules or components.
+	
+	Failure Occurrence: The failure occurs consistently whenever users attempt to use UNIX sockets with mod\_proxy\_uwsgi. This indicates that the bug's manifestation is predictable and not sporadic.
+	
+	Given that the bug is not related to timing, environmental conditions, or complex error propagation patterns, and its occurrence is consistent and not sporadic, it aligns with the characteristics of a Bohrbug (BOH). This classification indicates that the issue is a fundamental flaw in the system rather than being related to aging, complexity, or environmental dependencies.\\
+	
+	\textbf{Issue 39725 - mod\_rewrite's RewriteMap directive does not expand back-references in lookup keys \href{https://bz.apache.org/bugzilla/show_bug.cgi?id=39725}{[12]}}
+	
+	\textbf{Classification: NAM-SEQ}
+	
+	\textbf{Justification:}
+	
+	Bug Activation: The bug is triggered when using mod\_rewrite's RewriteMap directive without the expansion of back-references in lookup keys. This indicates that the bug's activation is related to the sequence of actions performed when utilizing the RewriteMap directive without proper expansion of back-references.
+	
+	Error Propagation: The error likely propagates within the mod\_rewrite module, affecting the lookup process in RewriteMap directives. It does not seem to spread beyond the scope of mod\_rewrite or affect other components in the system.
+	
+	Failure Occurrence: The failure occurs consistently when attempting to use RewriteMap directives without expanding back-references in lookup keys. This indicates that the bug's manifestation is predictable and reproducible.
+	
+	Given that the bug's activation is associated with the specific sequence of actions performed when using mod\_rewrite's RewriteMap directive, its error propagation seems contained within the module, and its occurrence is consistent and reproducible, it aligns with the NAM-SEQ classification. This classification indicates that the bug's behavior is influenced by the sequence of actions performed rather than environmental conditions or timing issues.\\
+	
+	\newpage
+	\textbf{\large Reference:}\\
+	{\small [1] https://bugzilla.kernel.org/show\_bug.cgi?id=218173}\\
+	{\small [2] https://bugzilla.kernel.org/show\_bug.cgi?id=89611}\\
+	{\small [3] https://bugzilla.kernel.org/show\_bug.cgi?id=53031}\\
+	{\small [4] https://bugzilla.kernel.org/show\_bug.cgi?id=211585}\\
+	{\small [5] https://bugs.mysql.com/bug.php?id=71204}\\
+	{\small [6] https://bugs.mysql.com/bug.php?id=2261}\\
+	{\small [7] https://bugs.mysql.com/bug.php?id=107991}\\
+	{\small [8] https://bugs.mysql.com/bug.php?id=86043}\\
+	{\small [9] https://bz.apache.org/bugzilla/show\_bug.cgi?id=68661}\\
+	{\small [10] https://bz.apache.org/bugzilla/show\_bug.cgi?id=63666}\\
+	{\small [11] https://bz.apache.org/bugzilla/show\_bug.cgi?id=63716}\\
+	{\small [12] https://bz.apache.org/bugzilla/show\_bug.cgi?id=39725}\\
+	
+	
+	
+	
+\end{document}
